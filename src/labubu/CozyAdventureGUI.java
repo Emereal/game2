@@ -162,7 +162,7 @@ public class CozyAdventureGUI extends JFrame {
         background.add(bottomArea, BorderLayout.SOUTH);
 
         // Opening passage
-        addStoryDtl(curr.getDesc()+"\n\nWhat would you like to do?\n");
+        addStoryDtl(curr.getName()+"\n"+curr.getDesc()+"\n\nWhat would you like to do?\n");
     }
     
     // EDIT EVERYTHING BELOW HERE ------------------------------------------------------------------------------------------
@@ -317,10 +317,41 @@ public class CozyAdventureGUI extends JFrame {
     	
     }
     
+    private static class Hold extends Thread {
+    	
+    	public void run(boolean b) {
+    		if (b)
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			else
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	}
+    	
+    }
+    
     public static void addStoryDtl(String text) {
     	Typewriter tw = new Typewriter();
     	tw.text = text;
     	tw.start();
+    }
+    
+    public static void Wait(String choice) {
+    	if (choice.toLowerCase().equals("long")) {
+    		Hold w = new Hold();
+    		w.run(true);
+    	} else {
+    		Hold w = new Hold();
+    		w.run(false);
+    	}
     }
   
 

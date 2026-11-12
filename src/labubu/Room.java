@@ -11,6 +11,7 @@ public class Room implements Serializable{
 	private Room[] femto;
 	private HashMap<String, Item> items;
 	private HashMap<String, Item> heavyitems;
+	private HashMap<String, NPC> people;
 	private boolean locked;
 	
 	public Room(String n, String d) {
@@ -19,6 +20,7 @@ public class Room implements Serializable{
 		femto = new Room[6];
 		items = new HashMap<>();
 		heavyitems = new HashMap<>();
+		people = new HashMap<>();
 		Game.rooms.put(this.getName(), this);
 		locked = false;
 	}
@@ -73,6 +75,22 @@ public class Room implements Serializable{
 			items.remove(name);
 	}
 	
+	public NPC getNPC(String name) {
+		if (people.get(name)!=null)
+			return people.get(name);
+		return null;
+	}
+	
+	public boolean isNPC() {
+		if (people.isEmpty()==true)
+			return false;
+		return true;
+	}
+	
+	public void addNPC(String name, NPC person) {
+		people.put(name, person);
+	}
+	
 	public boolean getLockStatus() {
 		return locked;
 	}
@@ -86,5 +104,6 @@ public class Room implements Serializable{
 		s += "\n\n" + desc;
 		return s;
 	}
+
 
 }

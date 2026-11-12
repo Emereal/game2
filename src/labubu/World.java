@@ -29,6 +29,7 @@ public class World {
 		kitchen.addItem("flashlight", new Flashlight());
 		kitchen.addItem("mysteriousorb", new Item("Mysterious Orb"));
 		attic.addHeavyItem("safe", new Safe());
+		bedroom.addNPC("connor", new Connor());
 		office.setLockStatus(true);
 		attic.setLockStatus(true);
 		garage.setLockStatus(true);

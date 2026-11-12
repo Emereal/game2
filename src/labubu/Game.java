@@ -470,6 +470,16 @@ public class Game {
 					CozyAdventureGUI.addStoryDtl("You checkin me out or somethin?");
 				}
 				break;
+			case "talk":
+				if (commando.length>1) {
+					if (room.isNPC()==true)
+						room.getNPC(commando[1]).talk();
+					else
+						CozyAdventureGUI.addStoryDtl("But nobody came...");
+				} else {
+					CozyAdventureGUI.addStoryDtl("And who are you talking to? Yourself?");
+				}
+				break;
 			case "save":
 				saveGame();
 				CozyAdventureGUI.addStoryDtl("\n"+"Your progress has been saved!"+"\n");

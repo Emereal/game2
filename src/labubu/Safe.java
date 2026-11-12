@@ -3,12 +3,14 @@ package labubu;
 public class Safe extends Item {
 	
 	private boolean opensesame;
+	private boolean closesesame;
 	private double change;
 	private boolean open;
 	
 	public Safe() {
 		super("safe");
 		opensesame = false;
+		closesesame = false;
 		change = 0.0;
 		open = false;
 	}
@@ -38,11 +40,12 @@ public class Safe extends Item {
 	
 	@Override
 	public void close() {
-		if (opensesame) {
+		if (closesesame) {
 			CozyAdventureGUI.addStoryDtl("\nYou close the safe once more after trusting it to hold all of\n your very valuable change.\n Goodbye Piggy Bank!");
 			open = false;
 		} else {
 			CozyAdventureGUI.addStoryDtl("\nYou close the safe after putting all the papers back inside.\n Goodbye Safe!");
+			closesesame = true;
 			open = false;
 		}
 	}
