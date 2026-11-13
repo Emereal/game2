@@ -4,12 +4,14 @@ package labubu;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import javax.sound.sampled.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class CozyAdventureGUI extends JFrame {
 	
 	private Room curr = Game.room;
+	private AudioPlayer bgMusic = new AudioPlayer();
 
     private static final Color DARK_BROWN =
             new Color(72, 53, 42);
@@ -160,9 +162,10 @@ public class CozyAdventureGUI extends JFrame {
         background.add(header, BorderLayout.NORTH);
         background.add(mainArea, BorderLayout.CENTER);
         background.add(bottomArea, BorderLayout.SOUTH);
-
+        
         // Opening passage
         addStoryDtl(curr.getName()+"\n"+curr.getDesc()+"\n\nWhat would you like to do?\n");
+        bgMusic.playSong("bombermanbg.wav");
     }
     
     // EDIT EVERYTHING BELOW HERE ------------------------------------------------------------------------------------------
@@ -342,6 +345,15 @@ public class CozyAdventureGUI extends JFrame {
     	Typewriter tw = new Typewriter();
     	tw.text = text;
     	tw.start();
+    }
+    
+//    public static void runSong() {
+//    	AudioPlayer song = new AudioPlayer();
+//    	song.playSong("bombermanbg.wav");
+//    }
+    
+    public static void stopSong() {
+    	AudioPlayer.stop();
     }
     
     public static void Wait(String choice) {
