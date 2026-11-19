@@ -213,6 +213,8 @@ public class Game {
 				CozyAdventureGUI.addStoryDtl("The "+room.getExit(0).getName()+" is locked! Try to look around!");
 			} else {
 				room = room.getExit(0);
+				JLabel lbl = new JLabel(room.getName());
+				CozyAdventureGUI.changeLocHeader(lbl);
 				CozyAdventureGUI.addStoryDtl("\nYou moved east to the "+room.getName()+"\n");
 			}
 		} else if (dir.equals("west")) {
@@ -222,7 +224,9 @@ public class Game {
 				CozyAdventureGUI.addStoryDtl("The "+room.getExit(1).getName()+" is locked! Try to look around!");
 			} else {
 				room = room.getExit(1);
-				CozyAdventureGUI.addStoryDtl("\nYou moved west to the "+room.getName()+"\n");
+				JLabel lbl = new JLabel(room.getName());
+				CozyAdventureGUI.changeLocHeader(lbl);
+				CozyAdventureGUI.addStoryDtl("\nYou moved west to the "+room.getName());
 			}
 		} else if (dir.equals("north")) {
 			if (room.getExit(2) == null) {

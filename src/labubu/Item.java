@@ -36,6 +36,10 @@ public class Item implements Serializable{
 		CozyAdventureGUI.addStoryDtl("\nWhat are you talking about?? You can't do that here.");
 	}
 	
+	public void takeChange(double ch) {
+		CozyAdventureGUI.addStoryDtl("And where are you gonna put it? Your stinky shoes?");
+	}
+	
 	public String toString() {
 		return tem;
 	}

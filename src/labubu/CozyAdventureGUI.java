@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class CozyAdventureGUI extends JFrame {
 	
-	private Room curr = Game.room;
+	private static Room curr = Game.room;
 	private AudioPlayer bgMusic = new AudioPlayer();
 
     private static final Color DARK_BROWN =
@@ -19,11 +19,13 @@ public class CozyAdventureGUI extends JFrame {
             new Color(250, 242, 222);
     private static final Color LIGHT_TAN =
             new Color(225, 207, 174);
-
+    
+    private static JPanel sidebar;
+    
     private final static JTextArea storyText = new JTextArea();
     private final JTextField commandField = new JTextField();
 
-    private final JLabel locationValue =
+    protected static JLabel locationValue =
             new JLabel(curr.getName());
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -92,7 +94,7 @@ public class CozyAdventureGUI extends JFrame {
         storyPanel.add(scrollPane, BorderLayout.CENTER);
 
         // Side panel: location and inventory
-        JPanel sidebar = new JPanel();
+        sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(
                 sidebar, BoxLayout.Y_AXIS));
         sidebar.setBackground(CREAM);
@@ -102,6 +104,7 @@ public class CozyAdventureGUI extends JFrame {
                 new EmptyBorder(14, 12, 14, 12)));
 
         JLabel locationHeading = makeHeading("LOCATION");
+//        JLabel inventoryHeading = makeHeading("Inventory: ");
 
         locationValue.setFont(new Font("Serif", Font.PLAIN, 15));
         locationValue.setForeground(DARK_BROWN);
@@ -109,7 +112,7 @@ public class CozyAdventureGUI extends JFrame {
         sidebar.add(locationHeading);
         sidebar.add(Box.createVerticalStrut(8));
         sidebar.add(locationValue);
-        sidebar.add(Box.createVerticalStrut(24));
+//        sidebar.add(Box.createVerticalStrut(4));
 //        sidebar.add(new JSeparator());
 //        sidebar.add(Box.createVerticalStrut(20));
 //        sidebar.add(inventoryHeading);
@@ -165,7 +168,7 @@ public class CozyAdventureGUI extends JFrame {
         
         // Opening passage
         addStoryDtl(curr.getName()+"\n"+curr.getDesc()+"\n\nWhat would you like to do?\n");
-        bgMusic.playSong("bombermanbg.wav");
+        bgMusic.playSong("bombermanbg1.wav");
     }
     
     // EDIT EVERYTHING BELOW HERE ------------------------------------------------------------------------------------------
@@ -345,6 +348,12 @@ public class CozyAdventureGUI extends JFrame {
     	Typewriter tw = new Typewriter();
     	tw.text = text;
     	tw.start();
+    }
+    
+    public static void changeLocHeader(JLabel text) {
+    	sidebar.remove(locationValue);
+    	sidebar.add(text);
+    	
     }
     
 //    public static void runSong() {

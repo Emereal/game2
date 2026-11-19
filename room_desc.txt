@@ -8,12 +8,13 @@ to your bedroom, and east to the kitchen.
 #
 Bedroom
 This is your domain and has been since your family moved here
-when you were six. A nightstand with a Superman lamp sits next
-to your twin bed. Posters of various anime characters cover one
-wall. A pile of laundry, slowly but surely attaining sentience,
-occupies the far corner.
-The door to the attic is in the ceiling above the pile of
-clothes. You can return south to the living room.
+when you were six. For some reason, Connor, who is standing
+smugly off to the side decided to make it his for the day.
+A nightstand with a Superman lamp sits next to your twin bed. 
+Posters of various anime characters cover one wall. A pile of
+laundry, slowly but surely attaining sentience, occupies the
+far corner. The door to the attic is in the ceiling above the
+pile of clothes. You can return south to the living room.
 #
 Attic
 Upon crawling up into the attic, the dust immediately hits you

@@ -26,27 +26,31 @@ public class Safe extends Item {
 	
 	@Override
 	public void open() {
-		if (opensesame) {
-			CozyAdventureGUI.addStoryDtl("\nSince you've already opened the safe, you decide that you\n could use a piggy bank and put one of your\n pennies in there now that you know the password. You'll grab the change\n later.");
+		if (opensesame&&open==false) {
+			CozyAdventureGUI.addStoryDtl("\n You open the safe, and since you've already opened it, you decide that you\n could use a piggy bank and put one of your\n pennies in there now that you know the password. You'll grab the change\n later.");
 			change += 0.01;
 			open = true;
-		} else {
+		} else if (open==false) {
 			CozyAdventureGUI.addStoryDtl("\nYou open the safe, and a notebook falls onto the floor along\n many papers! Maybe it will prove useful?");
 			opensesame = true;
 			open = true;
 			Game.getCurrentRoom().addItem("notebook", new Notebook());
+		} else {
+			CozyAdventureGUI.addStoryDtl("The safe is already open, dummy.");
 		}
 	}
 	
 	@Override
 	public void close() {
-		if (closesesame) {
+		if (closesesame&&open) {
 			CozyAdventureGUI.addStoryDtl("\nYou close the safe once more after trusting it to hold all of\n your very valuable change.\n Goodbye Piggy Bank!");
 			open = false;
-		} else {
+		} else if (open) {
 			CozyAdventureGUI.addStoryDtl("\nYou close the safe after putting all the papers back inside.\n Goodbye Safe!");
 			closesesame = true;
 			open = false;
+		} else {
+			CozyAdventureGUI.addStoryDtl("The safe is already closed, idiot.");
 		}
 	}
 	

@@ -25,6 +25,7 @@ public class World {
 		livingRoom.addItem("tool", new Tool());
 		livingRoom.addItem("musicbox", new Item("Music Box"));
 		livingRoom.addHeavyItem("couch", new Item("Couch"));
+		office.addItem("Satchel", new Satchel());
 		kitchen.addItem("knife", new Item("Knife"));
 		kitchen.addItem("flashlight", new Flashlight());
 		kitchen.addItem("mysteriousorb", new Item("Mysterious Orb"));

@@ -1,24 +1,94 @@
 package labubu;
 
+import java.util.Random;
+
 public class Connor extends NPC{
 	
-	private boolean met;
+	private boolean advance;
+	private boolean first;
+	private boolean task1;
+	private boolean task2;
+	private boolean moneygiven;
+	private int convo;
 	
 	public Connor() {
 		super("connor");
-		met = false;
+		advance = false;
+		task1 = false;
+		task2 = false;
+		moneygiven = false;
+		convo = 0;
 	}
 	
 	@Override
 	public void talk() {
-		if (met) {
-			
+		if (advance) {
+			if (convo==1) {
+				say("\nYou must be talking to me because you got my Takis right?");
+				if (Game.inventory.containsKey("Takis")) {
+					String[] opt1 = {
+							"Yeah, here you go.",
+							"No, I ate them."
+					};
+					int ch = getResponse(opt1);
+					switch (ch) {
+					case 1:
+						say("\nOh nice, thanks for the grub! I needed this... talk to me\n again once you got something to hold some cash\n in. Did you need anything else?");
+						task1 = true;
+						advance = false;
+						break;
+					case 2:
+						say("\nHaha, funny. I see the bag in your hand, give them here. And\n since you have been so helpful, I'll give\n ya some cash. Just let me know when you want it.");
+						task1 = true;
+						advance = false;
+						break;
+					}
+				} else {
+					String[] opt1 = {
+							"No, I couldn't find them."
+					};
+					int ch = getResponse(opt1);
+					switch (ch) {
+						case 1:
+							say("\nWell then, what are you waiting for? I need my snack!!\n Did you need anything else?");
+							advance = false;
+							break;
+						default:
+							say("\nWuzzat?");
+							break;
+					}
+				}
+			} else if (convo==2) {
+				say("\nI already told you no, what, do you want to try and open a chest\n or something? How about this, if you get the pirate\n token, I'll let you have this thing I found lying around. Deal?");
+				String[] opt2 = {
+						"I was born for this.",
+						"No, I have to pee."
+				};
+				int ch = getResponse(opt2);
+				switch (ch) {
+					case 1:
+						say("\nWell then, there's a chest right over there. Go open it!");
+						boolean token = pirateTokenRoll();
+						if (token) {
+							say("\nWHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT?!?!?!\n You got the token!!! HOW?!?! You know what, take this,\n you deserve it.");
+							Game.inventory.put("garagekey", new Item("garagekey"));
+						} else {
+							say("\nWell, that was expected. Now shoo, I have a game to win.");
+						}
+						advance = false;
+						break;
+					case 2:
+						say("\nWell, what are you doing then? Now shoo, I have a game to win.");
+					default:
+						say("\nWuzzat?");
+						break;
+			}
 		} else {
 			say("Hey! What's got you searching around bro?");
 			String[] opt = {
-					"Do you know where the flashlight is?",
-					"Do you have any change on you?",
-					"I want to play fortnite."
+					"Do you know where the flashlight is?", // repeats the hint no matter what
+					"Do you have any change on you?", // initiates a quest for extra change, changes after completion
+					"I want to play fortnite." // allows you a 1 in 176,000 chance to get the fortnite token and complete the game early. Changes after completion
 			};
 			int ch = getResponse(opt);
 			switch (ch) {
@@ -26,19 +96,57 @@ public class Connor extends NPC{
 					say("\nNah man, I have no clue. The last time I saw it is when Dad\n tried to sneak a midnight snack, but Mom caught\n him in the act.");
 					break;
 				case 2:
-					say("\nOh yeah, I stole 20 bucks off of Pops before he left. Let me\n just grab it real quick...");
-					CozyAdventureGUI.addStory("\nConnor jabbed you in the stomach! You lost 15HP!");
-					CozyAdventureGUI.Wait("short");
-					CozyAdventureGUI.addStory("\nYou suddenly remembered you don't have HP, and now you feel\n slightly embarrassed.");
+					if (first) {
+						say("\nOh yeah, I stole 20 bucks off of Pops before he left. Let me\n just grab it real quick...");
+						CozyAdventureGUI.addStory("\nConnor jabbed you in the stomach! You lost 15HP!");
+						CozyAdventureGUI.Wait("short");
+						CozyAdventureGUI.addStory("\nYou suddenly remembered you don't have HP, and now you feel\n slightly embarrassed.");
+						say("\nHah! Totally got you!! Maybe if you get me some Takis I'll\n split some change with you.");
+					} else if (moneygiven) {
+						say("\nThanks for the chips! Just let me know if you need anything else.");
+					} else {
+						if (task1&&Game.inventory.containsKey("Satchel")) {
+							say("\nOh yeah, I almost forgot. Here's some money, dude. Thanks\n for the chips.");
+							Game.inventory.get("Satchel").takeChange(ch);
+							moneygiven = true;
+						} else if (task1) {
+							say("\nDoesn't look like you can put the money anywhere man...");
+						} else {
+							say("\nWell, only if you get my Takis. Otherwise, consider me a\n poor person that's never had money in his life.\n Now shoo.");
+							convo = 1;
+							advance = true;
+						}
+					}
+					
 					break;
 				case 3:
-					say("\nI've been trying to get the pirate token for the past 4 days,\n I can't let you log on and steal my luck.");
+					if (first) {
+						say("\nI've been trying to get the pirate token for the past 4 days,\n I can't let you log on and steal my luck.");
+						advance = true;
+						convo = 2;
+					} else if (task2){
+						say("Thanks for the token, but I'm busy buying out everything under\n the sun in the item shop. Maybe tomorrow, once\n I make my perfect outfit.");
+					} else {
+						say("\nWell I'M trying to play fortnite, can't you see? Buzz off.");
+						advance = true;
+						convo = 2;
+					}
 					break;
 				default:
 					say("\nSpeak up, I can't hear you Netenyahu.");
+					advance = false;
 					break;
 			}
 		}
+		}
+	}
+	
+	public boolean pirateTokenRoll() {
+		Random rand = new Random();
+		double chance = rand.nextInt(137500);
+		if (chance==1)
+			return true;
+		return false;
 	}
 
 }
