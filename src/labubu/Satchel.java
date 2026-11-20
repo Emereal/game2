@@ -5,7 +5,7 @@ public class Satchel extends Item{
 	private static double change;
 	
 	public Satchel() {
-		super("satchel");
+		super("Satchel");
 		change = 0.0;
 	}
 	

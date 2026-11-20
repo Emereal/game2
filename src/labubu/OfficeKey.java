@@ -5,13 +5,13 @@ public class OfficeKey extends Item{
 	private boolean usedKey;
 	
 	public OfficeKey() {
-		super("officekey");
+		super("Office Key");
 		usedKey = false;
 	}
 	
 	@Override
 	public void use() {
-		if (Game.getCurrentRoom().getName().equals("Bedroom")) {
+		if (Game.getCurrentRoom().getName().equals("Living Room")) {
 			if (usedKey) {
 				CozyAdventureGUI.addStoryDtl("You already opened the office door!");
 			} else {

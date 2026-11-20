@@ -2,10 +2,11 @@ package labubu;
 
 import java.util.Random;
 
-public class Connor extends NPC{
+public class Connor extends NPC {
 	
 	private boolean advance;
-	private boolean first;
+	private boolean first2;
+	private boolean first3;
 	private boolean task1;
 	private boolean task2;
 	private boolean moneygiven;
@@ -14,6 +15,8 @@ public class Connor extends NPC{
 	public Connor() {
 		super("connor");
 		advance = false;
+		first2 = true;
+		first3 = true;
 		task1 = false;
 		task2 = false;
 		moneygiven = false;
@@ -25,7 +28,7 @@ public class Connor extends NPC{
 		if (advance) {
 			if (convo==1) {
 				say("\nYou must be talking to me because you got my Takis right?");
-				if (Game.inventory.containsKey("Takis")) {
+				if (Game.inventory.containsKey("takis")) {
 					String[] opt1 = {
 							"Yeah, here you go.",
 							"No, I ate them."
@@ -70,9 +73,13 @@ public class Connor extends NPC{
 						say("\nWell then, there's a chest right over there. Go open it!");
 						boolean token = pirateTokenRoll();
 						if (token) {
+							CozyAdventureGUI.addStory("\nYou got the Pirate Token!!!\n");
 							say("\nWHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT?!?!?!\n You got the token!!! HOW?!?! You know what, take this,\n you deserve it.");
-							Game.inventory.put("garagekey", new Item("garagekey"));
+							Game.inventory.put("garagekey", new Item("Garage Key"));
+							CozyAdventureGUI.addStory("\nYou obtained a Garage Key!");
+							
 						} else {
+							CozyAdventureGUI.addStory("\nYou got nothing...\n");
 							say("\nWell, that was expected. Now shoo, I have a game to win.");
 						}
 						advance = false;
@@ -82,9 +89,10 @@ public class Connor extends NPC{
 					default:
 						say("\nWuzzat?");
 						break;
+				}
 			}
 		} else {
-			say("Hey! What's got you searching around bro?");
+			say("Hey, What's got you searching around?");
 			String[] opt = {
 					"Do you know where the flashlight is?", // repeats the hint no matter what
 					"Do you have any change on you?", // initiates a quest for extra change, changes after completion
@@ -96,18 +104,20 @@ public class Connor extends NPC{
 					say("\nNah man, I have no clue. The last time I saw it is when Dad\n tried to sneak a midnight snack, but Mom caught\n him in the act.");
 					break;
 				case 2:
-					if (first) {
+					if (first2) {
 						say("\nOh yeah, I stole 20 bucks off of Pops before he left. Let me\n just grab it real quick...");
 						CozyAdventureGUI.addStory("\nConnor jabbed you in the stomach! You lost 15HP!");
-						CozyAdventureGUI.Wait("short");
 						CozyAdventureGUI.addStory("\nYou suddenly remembered you don't have HP, and now you feel\n slightly embarrassed.");
 						say("\nHah! Totally got you!! Maybe if you get me some Takis I'll\n split some change with you.");
+						first2 = false;
+						advance = true;
+						convo = 1;
 					} else if (moneygiven) {
 						say("\nThanks for the chips! Just let me know if you need anything else.");
 					} else {
-						if (task1&&Game.inventory.containsKey("Satchel")) {
+						if (task1&&Game.inventory.containsKey("satchel")) {
 							say("\nOh yeah, I almost forgot. Here's some money, dude. Thanks\n for the chips.");
-							Game.inventory.get("Satchel").takeChange(ch);
+							Game.inventory.get("satchel").takeChange(3.0);
 							moneygiven = true;
 						} else if (task1) {
 							say("\nDoesn't look like you can put the money anywhere man...");
@@ -120,9 +130,10 @@ public class Connor extends NPC{
 					
 					break;
 				case 3:
-					if (first) {
+					if (first3) {
 						say("\nI've been trying to get the pirate token for the past 4 days,\n I can't let you log on and steal my luck.");
 						advance = true;
+						first3 = false;
 						convo = 2;
 					} else if (task2){
 						say("Thanks for the token, but I'm busy buying out everything under\n the sun in the item shop. Maybe tomorrow, once\n I make my perfect outfit.");
@@ -137,9 +148,9 @@ public class Connor extends NPC{
 					advance = false;
 					break;
 			}
+			}
 		}
-		}
-	}
+	
 	
 	public boolean pirateTokenRoll() {
 		Random rand = new Random();

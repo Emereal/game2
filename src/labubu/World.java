@@ -25,10 +25,11 @@ public class World {
 		livingRoom.addItem("tool", new Tool());
 		livingRoom.addItem("musicbox", new Item("Music Box"));
 		livingRoom.addHeavyItem("couch", new Item("Couch"));
-		office.addItem("Satchel", new Satchel());
+		office.addItem("satchel", new Satchel());
 		kitchen.addItem("knife", new Item("Knife"));
 		kitchen.addItem("flashlight", new Flashlight());
 		kitchen.addItem("mysteriousorb", new Item("Mysterious Orb"));
+		kitchen.addItem("takis", new Item("Takis"));
 		attic.addHeavyItem("safe", new Safe());
 		bedroom.addNPC("connor", new Connor());
 		office.setLockStatus(true);
