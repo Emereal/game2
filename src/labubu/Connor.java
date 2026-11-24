@@ -124,6 +124,7 @@ public class Connor extends NPC {
 								say("\nOh yeah, I almost forgot. Here's the paper AND some paper dude. Thanks\n for the chips.");
 								Game.inventory.get("satchel").takeChange(3.0);
 								Game.inventory.put("safepassword", new SafePassword());
+								passwordgiven = true;
 							} else {
 								say("\nOh yeah, I almost forgot. Here's the paper, dude. Thanks\n for the chips.");
 								Game.inventory.get("satchel").takeChange(3.0);
@@ -135,6 +136,7 @@ public class Connor extends NPC {
 							else
 								say("\nHere's the password, but it doesn't look like I can give you the\n money for now.");
 							Game.inventory.put("safepassword", new SafePassword());
+							passwordgiven = true;
 						} else {
 							say("\nWell, only if you get my Takis. Otherwise, consider me a\n poor person that's never had money in his life.\n Now shoo.");
 							convo = 1;
