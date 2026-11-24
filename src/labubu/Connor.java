@@ -47,8 +47,8 @@ public class Connor extends NPC {
 	public void talk() {
 		if (advance) {
 			if (convo==1) {
-				say("\nYou must be talking to me because you got my Takis right?");
 				if (!Game.inventory.containsKey("takis")) {
+					say("\nYou must be talking to me because you got my Takis right?");
 					String[] opt1 = {
 							"No, I couldn't find them."
 					};
@@ -62,6 +62,8 @@ public class Connor extends NPC {
 							say("\nWuzzat?");
 							break;
 					}
+				} else {
+					say("\nYou must be talking to me because you got my Takis right? Just\n give them here!");
 				}
 			} else if (convo==2) {
 				say("\nI already told you no, what, do you want to try and open a chest\n or something? How about this, if you get the pirate\n token, I'll let you have this thing I found lying around. Deal?");
@@ -110,7 +112,7 @@ public class Connor extends NPC {
 						say("\nOh yeah, I stole 20 bucks and a piece of paper off of Pops\n before he left. Let me just grab it real quick...");
 						CozyAdventureGUI.addStory("\nConnor jabbed you in the stomach! You lost 15HP!");
 						CozyAdventureGUI.addStory("\nYou suddenly remembered you don't have HP, and now you feel\n slightly embarrassed.");
-						say("\nHah! Totally got you!! Maybe if you get me some Takis I'll\n split some change with you and show you\n this paper.");
+						say("\nHah! Totally got you!! Maybe if you get me some Takis I'll\n split some change with you and show you this paper.");
 						first2 = false;
 						advance = true;
 						convo = 1;
