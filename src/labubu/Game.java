@@ -371,6 +371,19 @@ public class Game {
 					CozyAdventureGUI.addStoryDtl("Open.");
 				}
 				break;
+			case "give":
+				if (commando.length>1) {
+					if (room.isNPC()==true)
+						if (commando.length>2)
+							room.getNPC(commando[1]).give(inventory.get(commando[2]));
+						else
+							CozyAdventureGUI.addStoryDtl("What are you going to give "+room.getNPC(commando[1]).getName()+"?");
+					else
+						CozyAdventureGUI.addStoryDtl("But nobody came...");
+				} else {
+					CozyAdventureGUI.addStoryDtl("And who are you giving it to? Your imaginary girlfriend?");
+				}
+				break;
 			case "read":
 				if (commando.length>1) {
 					if (inventory.containsKey(commando[1])==true)

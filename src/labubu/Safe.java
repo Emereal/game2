@@ -6,6 +6,7 @@ public class Safe extends Item {
 	private boolean closesesame;
 	private double change;
 	private boolean open;
+	private static boolean locked;
 	
 	public Safe() {
 		super("safe");
@@ -13,6 +14,11 @@ public class Safe extends Item {
 		closesesame = false;
 		change = 0.0;
 		open = false;
+		locked = true;
+	}
+	
+	public static void isLocked(boolean bool) {
+		locked = bool;
 	}
 	
 	@Override
@@ -26,8 +32,10 @@ public class Safe extends Item {
 	
 	@Override
 	public void open() {
-		if (opensesame&&open==false) {
-			CozyAdventureGUI.addStoryDtl("\n You open the safe, and since you've already opened it, you decide that you\n could use a piggy bank and put one of your\n pennies in there now that you know the password. You'll grab the change\n later.");
+		if (locked) {
+			CozyAdventureGUI.addStoryDtl("\nThe safe is locked with a 4-digit passcode! You might need to\n find a password in order to open it.");
+		} else if (opensesame&&open==false) {
+			CozyAdventureGUI.addStoryDtl("\nYou open the safe, and since you've already opened it, you decide that you\n could use a piggy bank and put one of your\n pennies in there now that you know the password. You'll grab the change\n later.");
 			change += 0.01;
 			open = true;
 		} else if (open==false) {

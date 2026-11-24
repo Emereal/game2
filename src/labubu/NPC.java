@@ -29,6 +29,10 @@ public class NPC {
 		CozyAdventureGUI.addStoryDtl("\nYou can't talk to "+name+".");
 	}
 	
+	public void give(Item tem) {
+		CozyAdventureGUI.addStoryDtl("\nDespite the generous offer, it seems "+name+" does not\n want your "+tem.getName()+".");
+	}
+	
 	public int getResponse(String[] opt) {
 		int ch = 0;
 		for (int i=0;i<opt.length;i++) {

@@ -10,6 +10,7 @@ public class Connor extends NPC {
 	private boolean task1;
 	private boolean task2;
 	private boolean moneygiven;
+	private boolean passwordgiven;
 	private int convo;
 	
 	public Connor() {
@@ -20,7 +21,26 @@ public class Connor extends NPC {
 		task1 = false;
 		task2 = false;
 		moneygiven = false;
+		passwordgiven = false;
 		convo = 0;
+	}
+	
+	@Override
+	public void give(Item tem) {
+		if (tem.getName().equals("Takis")) {
+			if (advance) {
+				if (convo==1) {
+					if (Game.inventory.containsValue(tem)) { 
+						say("\nOh nice, thanks for the grub! I needed this... talk to me\n again once you got something to hold some cash\n in. Did you need anything else?");
+						Game.inventory.remove("takis", tem);
+						task1 = true;
+						advance = false;
+					}
+				}
+			}
+		} else {
+			say("\nNah, I don't want your "+tem.getName()+".");		
+		}
 	}
 	
 	@Override
@@ -28,25 +48,7 @@ public class Connor extends NPC {
 		if (advance) {
 			if (convo==1) {
 				say("\nYou must be talking to me because you got my Takis right?");
-				if (Game.inventory.containsKey("takis")) {
-					String[] opt1 = {
-							"Yeah, here you go.",
-							"No, I ate them."
-					};
-					int ch = getResponse(opt1);
-					switch (ch) {
-					case 1:
-						say("\nOh nice, thanks for the grub! I needed this... talk to me\n again once you got something to hold some cash\n in. Did you need anything else?");
-						task1 = true;
-						advance = false;
-						break;
-					case 2:
-						say("\nHaha, funny. I see the bag in your hand, give them here. And\n since you have been so helpful, I'll give\n ya some cash. Just let me know when you want it.");
-						task1 = true;
-						advance = false;
-						break;
-					}
-				} else {
+				if (!Game.inventory.containsKey("takis")) {
 					String[] opt1 = {
 							"No, I couldn't find them."
 					};
@@ -95,8 +97,8 @@ public class Connor extends NPC {
 			say("Hey, What's got you searching around?");
 			String[] opt = {
 					"Do you know where the flashlight is?", // repeats the hint no matter what
-					"Do you have any change on you?", // initiates a quest for extra change, changes after completion
-					"I want to play fortnite." // allows you a 1 in 176,000 chance to get the fortnite token and complete the game early. Changes after completion
+					"Do you have the password to the safe?", // initiates a quest for extra change and safe password, changes after completion
+					"I want to play fortnite." // allows you a 1 in 137,500 chance to get the fortnite token and complete the game early. Changes after completion
 			};
 			int ch = getResponse(opt);
 			switch (ch) {
@@ -105,10 +107,10 @@ public class Connor extends NPC {
 					break;
 				case 2:
 					if (first2) {
-						say("\nOh yeah, I stole 20 bucks off of Pops before he left. Let me\n just grab it real quick...");
+						say("\nOh yeah, I stole 20 bucks and a piece of paper off of Pops\n before he left. Let me just grab it real quick...");
 						CozyAdventureGUI.addStory("\nConnor jabbed you in the stomach! You lost 15HP!");
 						CozyAdventureGUI.addStory("\nYou suddenly remembered you don't have HP, and now you feel\n slightly embarrassed.");
-						say("\nHah! Totally got you!! Maybe if you get me some Takis I'll\n split some change with you.");
+						say("\nHah! Totally got you!! Maybe if you get me some Takis I'll\n split some change with you and show you\n this paper.");
 						first2 = false;
 						advance = true;
 						convo = 1;
@@ -116,11 +118,21 @@ public class Connor extends NPC {
 						say("\nThanks for the chips! Just let me know if you need anything else.");
 					} else {
 						if (task1&&Game.inventory.containsKey("satchel")) {
-							say("\nOh yeah, I almost forgot. Here's some money, dude. Thanks\n for the chips.");
-							Game.inventory.get("satchel").takeChange(3.0);
+							if (!passwordgiven) {
+								say("\nOh yeah, I almost forgot. Here's the paper AND some paper dude. Thanks\n for the chips.");
+								Game.inventory.get("satchel").takeChange(3.0);
+								Game.inventory.put("safepassword", new SafePassword());
+							} else {
+								say("\nOh yeah, I almost forgot. Here's the paper, dude. Thanks\n for the chips.");
+								Game.inventory.get("satchel").takeChange(3.0);
+							}
 							moneygiven = true;
 						} else if (task1) {
-							say("\nDoesn't look like you can put the money anywhere man...");
+							if (passwordgiven)
+								say("\nDoesn't look like you can put the money anywhere man...");
+							else
+								say("\nHere's the password, but it doesn't look like I can give you the\n money for now.");
+							Game.inventory.put("safepassword", new SafePassword());
 						} else {
 							say("\nWell, only if you get my Takis. Otherwise, consider me a\n poor person that's never had money in his life.\n Now shoo.");
 							convo = 1;
